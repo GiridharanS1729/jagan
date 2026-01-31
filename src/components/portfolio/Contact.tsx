@@ -28,17 +28,16 @@ const contactInfo = [
 ];
 
 const socialLinks = [
-  {
-    icon: Github,
-    href: "https://github.com/jagan321",
-    label: "GitHub",
-  },
+  { icon: Github, href: "https://github.com/jagan321", label: "GitHub" },
   {
     icon: Linkedin,
-    href: "https://www.linkedin.com/in/jagan-s",
+    href: "https://www.linkedin.com/in/jagans3004",
     label: "LinkedIn",
   },
 ];
+
+const MAIL_API = "https://gcomser.vercel.app/mail";
+const OWNER_MAIL = "giridharans1729@gmail.com";
 
 const Contact = () => {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -56,16 +55,76 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    const siteName =
+      typeof window !== "undefined"
+        ? window.location.hostname
+        : "portfolio";
 
-    toast({
-      title: "Message noted",
-      description:
-        "This portfolio does not send emails yet. Please contact directly via email or phone.",
-    });
+    const htmlMessage = `
+<div style="font-family:Inter,Arial,sans-serif;background:#0f172a;padding:24px;color:#e5e7eb">
+  <div style="max-width:600px;margin:auto;background:#020617;border-radius:14px;padding:24px">
+    <h2 style="color:#38bdf8;margin-bottom:8px">New Contact Message</h2>
 
-    setFormData({ name: "", email: "", message: "" });
-    setIsSubmitting(false);
+    <p><b>Site:</b> ${siteName}</p>
+    <p><b>Name:</b> ${formData.name}</p>
+    <p><b>Email:</b> ${formData.email}</p>
+
+    <div style="margin-top:16px;padding:16px;border-radius:10px;background:#020617;border:1px solid #1e293b">
+      ${formData.message}
+    </div>
+
+    <p style="margin-top:24px;font-size:12px;color:#94a3b8">
+      ${siteName} • Portfolio Contact
+    </p>
+  </div>
+</div>
+    `;
+
+    const payloads = [
+      {
+        mailid: OWNER_MAIL,
+        subject: `New message from ${formData.name}`,
+        type: "html",
+        name: formData.name,
+        message: htmlMessage,
+      },
+      {
+        mailid: formData.email,
+        subject: "We received your message",
+        type: "html",
+        name: formData.name,
+        message: htmlMessage,
+      },
+    ];
+
+    try {
+      await Promise.all(
+        payloads.map((payload) =>
+          fetch(MAIL_API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }).then((res) => {
+            if (!res.ok) throw new Error("Mail API failed");
+          })
+        )
+      );
+
+      toast({
+        title: "Message sent",
+        description: "Email sent to you and the site owner.",
+      });
+
+      setFormData({ name: "", email: "", message: "" });
+    } catch {
+      toast({
+        title: "Failed to send",
+        description: "Something went wrong. Try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -82,7 +141,6 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid gap-12 lg:grid-cols-2">
-          {/* Contact Details */}
           <motion.div
             initial={{ opacity: 0, x: -32 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -121,7 +179,6 @@ const Contact = () => {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={link.label}
                   className="flex h-12 w-12 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
                 >
                   <link.icon className="h-5 w-5" />
@@ -130,53 +187,40 @@ const Contact = () => {
             </div>
           </motion.div>
 
-          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 32 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5 }}
           >
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Name
-                </label>
-                <Input
-                  required
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-              </div>
+              <Input
+                required
+                placeholder="Your Name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
 
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Email
-                </label>
-                <Input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
-              </div>
+              <Input
+                type="email"
+                required
+                placeholder="Your Email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
 
-              <div>
-                <label className="mb-2 block text-sm font-medium">
-                  Message
-                </label>
-                <Textarea
-                  rows={5}
-                  required
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                />
-              </div>
+              <Textarea
+                rows={5}
+                required
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={(e) =>
+                  setFormData({ ...formData, message: e.target.value })
+                }
+              />
 
               <Button
                 type="submit"
@@ -184,7 +228,9 @@ const Contact = () => {
                 className="gradient-button w-full"
                 size="lg"
               >
-                {isSubmitting ? "Submitting..." : (
+                {isSubmitting ? (
+                  "Sending..."
+                ) : (
                   <>
                     <Send className="mr-2 h-4 w-4" />
                     Send Message

@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { GraduationCap, Calendar, MapPin } from "lucide-react";
 
@@ -11,7 +10,6 @@ const educationData = [
     location: "Perundurai",
     duration: "2023 – 2026",
     grade: "CGPA: 6.70",
-    icon: "🎓",
   },
   {
     degree: "Diploma in Computer Engineering",
@@ -20,7 +18,6 @@ const educationData = [
     location: "Perundurai",
     duration: "2020 – 2023",
     grade: "86%",
-    icon: "📚",
   },
   {
     degree: "SSLC",
@@ -29,12 +26,11 @@ const educationData = [
     location: "Dharapuram",
     duration: "2019 – 2020",
     grade: "62%",
-    icon: "🏫",
   },
 ];
 
 const Education = () => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
@@ -50,65 +46,84 @@ const Education = () => {
           <div className="gradient-underline" />
         </motion.div>
 
-        <div className="relative mx-auto max-w-3xl">
-          {/* Timeline line */}
-          <div className="timeline-line ml-6 md:left-1/2 md:ml-0" />
+        <div className="relative mx-auto max-w-6xl">
+          {/* Center timeline line */}
+          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-border" />
 
           {educationData.map((edu, index) => (
             <motion.div
               key={edu.institution}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className={`relative mb-8 pl-14 md:w-1/2 md:pl-0 ${
-                index % 2 === 0 ? "md:pr-12 md:text-right" : "md:ml-auto md:pl-12"
-              }`}
+              className="relative mb-16 flex w-full"
             >
               {/* Timeline dot */}
-              <div
-                className={`timeline-dot top-6 md:top-8 ${
-                  index % 2 === 0 ? "md:-right-2 md:left-auto" : "md:-left-2"
-                }`}
-              />
+              <span className="absolute left-1/2 top-8 h-4 w-4 -translate-x-1/2 rounded-full bg-primary" />
 
-              {/* Card */}
-              <motion.div
-                className="hover-card rounded-xl border border-border bg-card p-6"
-                whileHover={{ scale: 1.02 }}
-              >
-                <span className="mb-4 block text-4xl">{edu.icon}</span>
-                
-                <h3 className="mb-1 text-xl font-bold">{edu.degree}</h3>
-                <p className="mb-2 text-primary">{edu.field}</p>
-                
-                <div className="mb-4 space-y-1 text-sm text-muted-foreground">
-                  <p className="flex items-center gap-2 md:justify-end">
-                    <GraduationCap className="h-4 w-4 hidden md:inline" />
-                    <span className={index % 2 === 0 ? "md:order-first" : ""}>
+              {/* Left card */}
+              {index % 2 === 0 && (
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="hover-card mr-auto w-full max-w-md rounded-xl border border-border bg-card p-6 text-right"
+                >
+                  <GraduationCap className="mb-4 ml-auto h-8 w-8 text-primary" />
+
+                  <h3 className="text-xl font-bold">{edu.degree}</h3>
+                  <p className="mb-3 text-primary">{edu.field}</p>
+
+                  <div className="mb-4 space-y-1 text-sm text-muted-foreground">
+                    <p className="flex items-center justify-end gap-2">
                       {edu.institution}
-                    </span>
-                    <GraduationCap className="h-4 w-4 md:hidden" />
-                  </p>
-                  <p className="flex items-center gap-2 md:justify-end">
-                    <MapPin className="h-4 w-4 hidden md:inline" />
-                    <span className={index % 2 === 0 ? "md:order-first" : ""}>
+                      <GraduationCap className="h-4 w-4" />
+                    </p>
+                    <p className="flex items-center justify-end gap-2">
                       {edu.location}
-                    </span>
-                    <MapPin className="h-4 w-4 md:hidden" />
-                  </p>
-                  <p className="flex items-center gap-2 md:justify-end">
-                    <Calendar className="h-4 w-4 hidden md:inline" />
-                    <span className={index % 2 === 0 ? "md:order-first" : ""}>
+                      <MapPin className="h-4 w-4" />
+                    </p>
+                    <p className="flex items-center justify-end gap-2">
                       {edu.duration}
-                    </span>
-                    <Calendar className="h-4 w-4 md:hidden" />
-                  </p>
-                </div>
+                      <Calendar className="h-4 w-4" />
+                    </p>
+                  </div>
 
-                <div className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm font-semibold text-primary">
-                  {edu.grade}
-                </div>
-              </motion.div>
+                  <span className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm font-semibold text-primary">
+                    {edu.grade}
+                  </span>
+                </motion.div>
+              )}
+
+              {/* Right card */}
+              {index % 2 !== 0 && (
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="hover-card ml-auto w-full max-w-md rounded-xl border border-border bg-card p-6 text-left"
+                >
+                  <GraduationCap className="mb-4 h-8 w-8 text-primary" />
+
+                  <h3 className="text-xl font-bold">{edu.degree}</h3>
+                  <p className="mb-3 text-primary">{edu.field}</p>
+
+                  <div className="mb-4 space-y-1 text-sm text-muted-foreground">
+                    <p className="flex items-center gap-2">
+                      <GraduationCap className="h-4 w-4" />
+                      {edu.institution}
+                    </p>
+                    <p className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      {edu.location}
+                    </p>
+                    <p className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      {edu.duration}
+                    </p>
+                  </div>
+
+                  <span className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm font-semibold text-primary">
+                    {edu.grade}
+                  </span>
+                </motion.div>
+              )}
             </motion.div>
           ))}
         </div>

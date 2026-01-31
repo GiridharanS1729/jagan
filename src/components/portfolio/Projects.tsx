@@ -11,7 +11,7 @@ const projects = [
     tech: ["Python", "Machine Learning", "NLP", "Scikit-learn"],
     duration: "Nov 2024 – Dec 2024",
     image: "🔍",
-    github: "https://github.com/jagan321",
+    github: "https://gsenti.vercel.app/",
     demo: "https://github.com/jagan321",
   },
   {

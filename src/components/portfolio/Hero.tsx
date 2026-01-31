@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 
 const socialLinks = [
   { icon: Github, href: "https://github.com/jagan321", label: "GitHub" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/jagan-s", label: "LinkedIn" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/jagans3004/", label: "LinkedIn" },
   { icon: Mail, href: "mailto:dpmjagan3@gmail.com", label: "Email" },
 ];
 

@@ -17,14 +17,14 @@ const skillCategories = [
       { name: "Node.js", level: 70 },
       { name: "Express.js", level: 70 },
       { name: "MongoDB", level: 75 },
-      { name: "REST APIs", level: 72 },
+      { name: "REST API Development", level: 72 },
     ],
   },
   {
-    title: "Digital Marketing",
+    title: "Digital Marketing & Analytics",
     skills: [
-      { name: "SEO Basics", level: 70 },
-      { name: "Content Marketing", level: 65 },
+      { name: "SEO Fundamentals", level: 70 },
+      { name: "Content Strategy", level: 65 },
       { name: "Google Analytics", level: 60 },
       { name: "Social Media Marketing", level: 68 },
     ],
@@ -35,17 +35,26 @@ const techBadges = [
   "HTML5",
   "CSS3",
   "JavaScript",
+  "TypeScript",
   "React",
+  "Vite",
+  "Tailwind CSS",
   "Node.js",
   "Express.js",
   "MongoDB",
   "REST APIs",
+  "JWT",
   "SEO",
   "Google Analytics",
+  "Search Console",
   "Git",
   "GitHub",
   "VS Code",
+  "Postman",
   "Figma",
+  "Canva",
+  "Netlify",
+  "Vercel",
 ];
 
 const Skills = () => {
@@ -115,7 +124,8 @@ const Skills = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center"
+          className="mx-auto text-center"
+          style={{ maxWidth: "50vw" }}
         >
           <h3 className="mb-6 text-xl font-semibold">
             Tools & Technologies
@@ -128,7 +138,7 @@ const Skills = () => {
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{
                   duration: 0.3,
-                  delay: 0.9 + index * 0.05,
+                  delay: 0.9 + index * 0.04,
                 }}
                 whileHover={{ scale: 1.1, y: -4 }}
                 className="tech-badge cursor-default"
