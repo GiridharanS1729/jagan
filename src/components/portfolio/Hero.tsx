@@ -148,11 +148,11 @@ const Hero = () => {
             className="relative flex-shrink-0"
           >
             <div className="glow-border relative h-64 w-64 overflow-hidden rounded-full md:h-80 md:w-80 lg:h-96 lg:w-96">
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-gradient-blue/20">
-                <span className="text-6xl font-bold gradient-text md:text-7xl lg:text-8xl">
-                  JS
-                </span>
-              </div>
+              <img
+                src="https://imgsnd.vercel.app/jagan"
+                alt="Jagan S"
+                className="h-full w-full object-cover rounded-full"
+              />
             </div>
           </motion.div>
         </div>
