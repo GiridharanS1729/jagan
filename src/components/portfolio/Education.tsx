@@ -18,7 +18,7 @@ const educationData = [
     field: "Computer Engineering",
     institution: "Kongu Polytechnic College",
     location: "Perundurai",
-    duration: "2019 – 2023",
+    duration: "2020 – 2023",
     grade: "86%",
     icon: "📚",
   },
