@@ -1,0 +1,290 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Jagan S Portfolio - Dark Theme with Purple/Blue Gradients */
+
+@layer base {
+  :root {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 263 70% 58%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 263 70% 58%;
+
+    --radius: 0.75rem;
+
+    /* Custom gradient colors */
+    --gradient-purple: 263 70% 58%;
+    --gradient-blue: 217 91% 60%;
+    --gradient-cyan: 189 94% 43%;
+
+    /* Glow effects */
+    --glow-purple: 263 70% 58%;
+    --glow-blue: 217 91% 60%;
+
+    --sidebar-background: 222 47% 6%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 263 70% 58%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 217 33% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 263 70% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--gradient-purple)) 0%,
+      hsl(var(--gradient-blue)) 50%,
+      hsl(var(--gradient-cyan)) 100%
+    );
+  }
+
+  /* Gradient border */
+  .gradient-border {
+    position: relative;
+    background: hsl(var(--card));
+    border-radius: var(--radius);
+  }
+
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-purple)),
+      hsl(var(--gradient-blue)),
+      hsl(var(--gradient-cyan))
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Gradient button */
+  .gradient-button {
+    @apply relative overflow-hidden rounded-lg px-6 py-3 font-medium text-white transition-all duration-300;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-purple)) 0%,
+      hsl(var(--gradient-blue)) 100%
+    );
+  }
+
+  .gradient-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -10px hsl(var(--gradient-purple) / 0.5);
+  }
+
+  /* Glow effect for profile image */
+  .glow-border {
+    position: relative;
+  }
+
+  .glow-border::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-purple)),
+      hsl(var(--gradient-blue)),
+      hsl(var(--gradient-cyan)),
+      hsl(var(--gradient-purple))
+    );
+    background-size: 400% 400%;
+    animation: glow-rotate 3s linear infinite;
+    z-index: -1;
+    filter: blur(10px);
+  }
+
+  @keyframes glow-rotate {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Card hover effect */
+  .hover-card {
+    @apply transition-all duration-300;
+  }
+
+  .hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -15px hsl(var(--gradient-purple) / 0.3);
+  }
+
+  /* Timeline styling */
+  .timeline-line {
+    @apply absolute left-0 top-0 h-full w-0.5;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--gradient-purple)) 0%,
+      hsl(var(--gradient-blue)) 100%
+    );
+  }
+
+  .timeline-dot {
+    @apply absolute -left-2 h-4 w-4 rounded-full;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-purple)),
+      hsl(var(--gradient-blue))
+    );
+    box-shadow: 0 0 20px hsl(var(--gradient-purple) / 0.5);
+  }
+
+  /* Section styling */
+  .section-heading {
+    @apply mb-12 text-center;
+  }
+
+  .section-heading h2 {
+    @apply text-3xl font-bold md:text-4xl;
+  }
+
+  .section-heading .gradient-underline {
+    @apply mx-auto mt-4 h-1 w-20 rounded-full;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--gradient-purple)),
+      hsl(var(--gradient-blue))
+    );
+  }
+
+  /* Skill progress bar */
+  .skill-progress {
+    @apply h-2 w-full overflow-hidden rounded-full bg-secondary;
+  }
+
+  .skill-progress-fill {
+    @apply h-full rounded-full transition-all duration-1000 ease-out;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--gradient-purple)),
+      hsl(var(--gradient-blue))
+    );
+  }
+
+  /* Floating social bar */
+  .floating-social {
+    @apply fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col gap-4 lg:flex;
+  }
+
+  .floating-social a {
+    @apply flex h-10 w-10 items-center justify-center rounded-full bg-card text-muted-foreground transition-all duration-300;
+  }
+
+  .floating-social a:hover {
+    @apply text-primary;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-purple) / 0.2),
+      hsl(var(--gradient-blue) / 0.2)
+    );
+    transform: translateX(5px);
+  }
+
+  /* Badge styling */
+  .tech-badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gradient-purple) / 0.2),
+      hsl(var(--gradient-blue) / 0.2)
+    );
+    border: 1px solid hsl(var(--gradient-purple) / 0.3);
+    color: hsl(var(--gradient-blue));
+  }
+}
+
+/* Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.typing-effect {
+  overflow: hidden;
+  border-right: 3px solid hsl(var(--gradient-purple));
+  white-space: nowrap;
+  animation: typing 3s steps(30) 1s forwards, blink 0.7s step-end infinite;
+}
